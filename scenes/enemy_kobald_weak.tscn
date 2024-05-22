@@ -1,0 +1,70 @@
+[gd_scene load_steps=11 format=3 uid="uid://c72k0xqr3av7l"]
+
+[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_mdr7v"]
+[ext_resource type="Texture2D" uid="uid://be7ndyraxwb7d" path="res://Textures/Enemy/kolbold_weak.png" id="2_7op0f"]
+[ext_resource type="PackedScene" uid="uid://tn3rsdp5lerx" path="res://scenes/hurt_box.tscn" id="3_5k778"]
+[ext_resource type="PackedScene" uid="uid://dv4gs6emltude" path="res://scenes/hitbox.tscn" id="4_g3kva"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enexl"]
+atlas = ExtResource("2_7op0f")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_winik"]
+atlas = ExtResource("2_7op0f")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h7q72"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enexl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_winik")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_64fuw"]
+radius = 7.0
+height = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cv8ph"]
+size = Vector2(21, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gv38j"]
+size = Vector2(13, 22)
+
+[node name="enemy_kobald_weak" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_mdr7v")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_h7q72")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 3)
+shape = SubResource("CapsuleShape2D_64fuw")
+
+[node name="HurtBox" parent="." instance=ExtResource("3_5k778")]
+visible = false
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_cv8ph")
+
+[node name="hitbox" parent="." instance=ExtResource("4_g3kva")]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="hitbox" index="0"]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_gv38j")
+
+[editable path="HurtBox"]
+[editable path="hitbox"]

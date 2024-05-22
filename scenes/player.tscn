@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://mjptghd8lcb0"]
+
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_27jgd"]
+[ext_resource type="Texture2D" uid="uid://cf15g16gc4x5a" path="res://Textures/Player/player_sprite.png" id="1_s1db1"]
+[ext_resource type="PackedScene" uid="uid://tn3rsdp5lerx" path="res://scenes/hurt_box.tscn" id="3_ql85h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjr18"]
+atlas = ExtResource("1_s1db1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm6cm"]
+atlas = ExtResource("1_s1db1")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nug5a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gjr18")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xm6cm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cchuk"]
+radius = 7.29167
+height = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jw356"]
+size = Vector2(12.75, 20)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+motion_mode = 1
+script = ExtResource("1_27jgd")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_nug5a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 1)
+scale = Vector2(0.96, 1)
+shape = SubResource("CapsuleShape2D_cchuk")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="HurtBox" parent="." instance=ExtResource("3_ql85h")]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2(1.625, 1)
+shape = SubResource("RectangleShape2D_jw356")
+
+[connection signal="hurt" from="HurtBox" to="." method="_on_hurt_box_hurt"]
+
+[editable path="HurtBox"]

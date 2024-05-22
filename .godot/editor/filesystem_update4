@@ -1,0 +1,6 @@
+res://scenes/world.tscn
+res://scenes/player.tscn
+res://scenes/enemy_kobald_weak.tscn
+res://scenes/hurt_box.tscn
+res://scenes/hitbox.tscn
+res://scenes/enemy_spawner.tscn
